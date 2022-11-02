@@ -318,10 +318,11 @@ class MyDatabase {
 		try {
 			Statement statement = connection.createStatement();
 			PreparedStatement ps = connection.prepareStatement("" +
-					"with notRead as (Select people.id,books.bid from people,books where people.aid is not null  " +
+					"with notRead as (Select people.id,books.bid from people,books where people.aid is not null" +
 					"except " +
 					"select people.id,books.bid from people join read on people.id=read.bid join books on read.bid=books.bid)"+
-					"Select first,last from people where people.id not in (Select people.id from notRead)");
+					"Select distinct first,last from people where id not in(select id from notRead)"+
+					"");
 
 			ResultSet rs = ps.executeQuery();
 
@@ -329,8 +330,6 @@ class MyDatabase {
 				// read the result set
 				System.out.print("firstName = " + rs.getString("first")+ ", ");
 				System.out.print("lastName = " + rs.getString("last")+ "\n");
-
-
 
 			}
 		} catch (SQLException e) {
