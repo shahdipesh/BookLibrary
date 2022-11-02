@@ -1,0 +1,1749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="true" />
+    <value-preview-pinned value="false" />
+  </component>
+  <component name="DBNavigator.Project.DataExportManager">
+    <export-instructions>
+      <create-header value="true" />
+      <friendly-headers value="false" />
+      <quote-values-containing-separator value="true" />
+      <quote-all-values value="false" />
+      <value-separator value="" />
+      <file-name value="" />
+      <file-location value="" />
+      <scope value="GLOBAL" />
+      <destination value="FILE" />
+      <format value="EXCEL" />
+      <charset value="UTF-8" />
+      <charset value="UTF-8" />
+    </export-instructions>
+  </component>
+  <component name="DBNavigator.Project.DatabaseBrowserManager">
+    <autoscroll-to-editor value="false" />
+    <autoscroll-from-editor value="true" />
+    <show-object-properties value="true" />
+    <loaded-nodes />
+  </component>
+  <component name="DBNavigator.Project.DatabaseConsoleManager">
+    <connection id="d62ecd0e-e700-48db-93e5-ecb1e1119867">
+      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[CREATE TABLE "audience" (
+	"name"	TEXT,
+	"minAge"	INTEGER,
+	"maxAge"	INTEGER,
+	PRIMARY KEY("name")
+);
+
+CREATE TABLE "city" (
+	"cid"	INTEGER,
+	"name"	TEXT,
+	"country"	TEXT,
+	PRIMARY KEY("cid")
+);
+
+CREATE TABLE "publishers" (
+	"pid"	INTEGER,
+	"name"	TEXT,
+	"cid"	INTEGER,
+	FOREIGN KEY("cid") REFERENCES "city"("cid"),
+	PRIMARY KEY("pid")
+);
+
+CREATE TABLE "people" (
+	"id"	INTEGER,
+	"first"	TEXT,
+	"last"	TEXT,
+	"age"	INTEGER,
+	"aid"	INTEGER UNIQUE,
+	"cid"	INTEGER,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("cid") REFERENCES "city"("cid")
+);
+
+CREATE TABLE "books" (
+	"bid"	INTEGER,
+	"title"	TEXT,
+	"aid"	INTEGER,
+	"pid"	INTEGER,
+	"genre"	TEXT,
+	"audience"	TEXT,
+	PRIMARY KEY("bid"),
+	FOREIGN KEY("audience") REFERENCES "audience"("name"),
+	FOREIGN KEY("aid") REFERENCES "people"("aid"),
+	FOREIGN KEY("pid") REFERENCES "publishers"("pid")
+);
+
+CREATE TABLE "store" (
+	"id"	INTEGER,
+	"name"	TEXT,
+	"cid"	INTEGER,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("cid") REFERENCES "city"("cid")
+);
+
+CREATE TABLE "read" (
+	"bid"	INTEGER,
+	"id"	INTEGER,
+	PRIMARY KEY("bid","id"),
+	FOREIGN KEY("id") REFERENCES "people"("id"),
+	FOREIGN KEY("bid") REFERENCES "books"("bid")
+);
+
+CREATE TABLE "sells" (
+	"sid"	INTEGER,
+	"pid"	INTEGER,
+	FOREIGN KEY("sid") REFERENCES "store"("id"),
+	FOREIGN KEY("pid") REFERENCES "publishers"("pid"),
+	PRIMARY KEY("sid","pid")
+);
+
+
+INSERT INTO Audience VALUES ("Children", 5, 15);
+INSERT INTO Audience VALUES ("Teenagers", 12, 20);
+INSERT INTO Audience VALUES ("Adults", 18, 50);
+INSERT INTO Audience VALUES ("All Ages", 5, 99);
+INSERT INTO Audience VALUES ("Seniors", 50, 99);
+
+INSERT INTO City VALUES (1, "Winnipeg", "Canada");
+INSERT INTO City VALUES (2, "Montreal", "Canada");
+INSERT INTO City VALUES (3, "Vancouver", "Canada");
+INSERT INTO City VALUES (4, "New York", "USA");
+INSERT INTO City VALUES (5, "Boston", "USA");
+INSERT INTO City VALUES (6, "Chicago", "USA");
+INSERT INTO City VALUES (7, "Paris", "France");
+INSERT INTO City VALUES (8, "London", "England");
+INSERT INTO City VALUES (9, "New Dehli", "India");
+INSERT INTO City VALUES (10, "Melbourne", "Australia");
+
+INSERT INTO Publishers VALUES (1, "Zadoc Media Research", 4);
+INSERT INTO Publishers VALUES (2, "Washington Park District", 8);
+INSERT INTO Publishers VALUES (3, "New Media Staffing", 1);
+INSERT INTO Publishers VALUES (4, "Icarus Media Design", 6);
+INSERT INTO Publishers VALUES (5, "Bob And Ray's Road Trip Page", 4);
+INSERT INTO Publishers VALUES (6, "LynnGregory", 10);
+INSERT INTO Publishers VALUES (7, "Flavorpill Productions", 3);
+INSERT INTO Publishers VALUES (8, "Ceres Press", 7);
+INSERT INTO Publishers VALUES (9, "Multi Media Dental Systems", 9);
+INSERT INTO Publishers VALUES (10, "The Knitting Gallery", 3);
+INSERT INTO Publishers VALUES (11, "Zelmer Media", 5);
+INSERT INTO Publishers VALUES (12, "Rose Gault", 3);
+INSERT INTO Publishers VALUES (13, "Sopris West Educational Svc", 1);
+INSERT INTO Publishers VALUES (14, "Heron Press", 9);
+INSERT INTO Publishers VALUES (15, "Transparent Patient Technologies", 5);
+INSERT INTO Publishers VALUES (16, "Midnight Marquee Press", 3);
+INSERT INTO Publishers VALUES (17, "Bcubed New Media", 7);
+INSERT INTO Publishers VALUES (18, "One Press", 10);
+INSERT INTO Publishers VALUES (19, "Impact Promotional Publishing", 9);
+INSERT INTO Publishers VALUES (20, "Media Solutions", 10);
+INSERT INTO Publishers VALUES (21, "Francesco Mainolfi", 10);
+INSERT INTO Publishers VALUES (22, "Yellow Book USA", 9);
+INSERT INTO Publishers VALUES (23, "Crossfield Music", 2);
+INSERT INTO Publishers VALUES (24, "Schroff Development Corp", 4);
+INSERT INTO Publishers VALUES (25, "Keller Williams Central", 3);
+
+INSERT INTO People VALUES (1, "Tara", "Morrison", 34, NULL, 4);
+INSERT INTO People VALUES (2, "Frederick", "Morrison", 35, NULL, 4);
+INSERT INTO People VALUES (3, "Jessica", "Miller", 30, NULL, 8);
+INSERT INTO People VALUES (4, "Paige", "Crawford", 32, NULL, 6);
+INSERT INTO People VALUES (5, "Naomi", "Elliott", 36, NULL, 4);
+INSERT INTO People VALUES (6, "Stuart", "Bennett", 37, 9, 9);
+INSERT INTO People VALUES (7, "Tiana", "Higgins", 32, 26, 3);
+INSERT INTO People VALUES (8, "Amelia", "Hall", 34, NULL, 6);
+INSERT INTO People VALUES (9, "Aida", "Campbell", 34, 47, 9);
+INSERT INTO People VALUES (10, "Mike", "Casey", 30, 45, 3);
+INSERT INTO People VALUES (11, "Adam", "Kelley", 40, 6, 4);
+INSERT INTO People VALUES (12, "Lucia", "Kelly", 39, NULL, 1);
+INSERT INTO People VALUES (13, "Robert", "Ryan", 32, NULL, 6);
+INSERT INTO People VALUES (14, "Adam", "Brooks", 39, NULL, 3);
+INSERT INTO People VALUES (15, "Valeria", "Bailey", 33, NULL, 10);
+INSERT INTO People VALUES (16, "Miller", "Alexander", 30, 8, 2);
+INSERT INTO People VALUES (17, "Lenny", "Moore", 30, NULL, 3);
+INSERT INTO People VALUES (18, "Victor", "Walker", 30, NULL, 10);
+INSERT INTO People VALUES (19, "Frederick", "Phillips", 32, NULL, 2);
+INSERT INTO People VALUES (20, "Maya", "Harris", 37, 24, 6);
+INSERT INTO People VALUES (21, "Natalie", "Morris", 30, NULL, 4);
+INSERT INTO People VALUES (22, "Harold", "Clark", 39, NULL, 9);
+INSERT INTO People VALUES (23, "Frederick", "Gibson", 39, NULL, 7);
+INSERT INTO People VALUES (24, "Darcy", "Rogers", 39, NULL, 3);
+INSERT INTO People VALUES (25, "Rafael", "Barrett", 40, NULL, 6);
+INSERT INTO People VALUES (26, "Ada", "Cameron", 32, NULL, 6);
+INSERT INTO People VALUES (27, "Julian", "Ferguson", 30, 33, 8);
+INSERT INTO People VALUES (28, "Samantha", "Morgan", 39, 41, 3);
+INSERT INTO People VALUES (29, "Valeria", "Phillips", 34, NULL, 8);
+INSERT INTO People VALUES (30, "Dominik", "Cunningham", 38, NULL, 6);
+INSERT INTO People VALUES (31, "Lily", "Holmes", 32, 27, 2);
+INSERT INTO People VALUES (32, "Dexter", "Howard", 39, 10, 9);
+INSERT INTO People VALUES (33, "Cherry", "Reed", 33, NULL, 5);
+INSERT INTO People VALUES (34, "Gianna", "Holmes", 33, NULL, 7);
+INSERT INTO People VALUES (35, "Eric", "Robinson", 30, NULL, 6);
+INSERT INTO People VALUES (36, "Tess", "Bennett", 39, NULL, 1);
+INSERT INTO People VALUES (37, "Sabrina", "Ferguson", 40, NULL, 9);
+INSERT INTO People VALUES (38, "Sabrina", "Cole", 33, NULL, 4);
+INSERT INTO People VALUES (39, "Julia", "Stewart", 33, NULL, 10);
+INSERT INTO People VALUES (40, "James", "West", 34, NULL, 8);
+INSERT INTO People VALUES (41, "Ryan", "Roberts", 34, NULL, 7);
+INSERT INTO People VALUES (42, "Emma", "Robinson", 33, NULL, 9);
+INSERT INTO People VALUES (43, "Aldus", "Carter", 32, NULL, 7);
+INSERT INTO People VALUES (44, "Olivia", "Gibson", 36, NULL, 2);
+INSERT INTO People VALUES (45, "Adison", "Martin", 31, NULL, 7);
+INSERT INTO People VALUES (46, "Edwin", "Howard", 36, NULL, 1);
+INSERT INTO People VALUES (47, "Frederick", "Foster", 36, NULL, 7);
+INSERT INTO People VALUES (48, "Cadie", "Ferguson", 32, NULL, 1);
+INSERT INTO People VALUES (49, "Aston", "Kelley", 36, NULL, 5);
+INSERT INTO People VALUES (50, "David", "Richards", 39, NULL, 7);
+INSERT INTO People VALUES (51, "Naomi", "Barnes", 39, NULL, 5);
+INSERT INTO People VALUES (52, "Violet", "Sullivan", 37, NULL, 6);
+INSERT INTO People VALUES (53, "Antony", "Andrews", 38, NULL, 4);
+INSERT INTO People VALUES (54, "Savana", "Hawkins", 38, NULL, 9);
+INSERT INTO People VALUES (55, "Darcy", "Brooks", 35, 14, 3);
+INSERT INTO People VALUES (56, "Alen", "Barrett", 37, NULL, 4);
+INSERT INTO People VALUES (57, "Alexander", "Wilson", 40, NULL, 7);
+INSERT INTO People VALUES (58, "Edgar", "Davis", 36, NULL, 3);
+INSERT INTO People VALUES (59, "Chelsea", "Grant", 35, NULL, 7);
+INSERT INTO People VALUES (60, "Vanessa", "Payne", 34, NULL, 8);
+INSERT INTO People VALUES (61, "Samantha", "Harris", 34, NULL, 7);
+INSERT INTO People VALUES (62, "Dominik", "Morrison", 38, 31, 7);
+INSERT INTO People VALUES (63, "Brooke", "Johnston", 32, NULL, 6);
+INSERT INTO People VALUES (64, "Joyce", "Hawkins", 38, NULL, 6);
+INSERT INTO People VALUES (65, "Julia", "Johnson", 31, NULL, 4);
+INSERT INTO People VALUES (66, "Arthur", "Jones", 33, NULL, 2);
+INSERT INTO People VALUES (67, "Eddy", "Harris", 37, NULL, 3);
+INSERT INTO People VALUES (68, "Alen", "Clark", 31, NULL, 6);
+INSERT INTO People VALUES (69, "Blake", "Stewart", 36, NULL, 3);
+INSERT INTO People VALUES (70, "Derek", "Andrews", 40, NULL, 7);
+INSERT INTO People VALUES (71, "Adam", "Johnston", 35, 16, 2);
+INSERT INTO People VALUES (72, "Maria", "Morgan", 30, 40, 8);
+INSERT INTO People VALUES (73, "Jacob", "Murphy", 32, NULL, 8);
+INSERT INTO People VALUES (74, "Aston", "Holmes", 38, NULL, 4);
+INSERT INTO People VALUES (75, "Stella", "Bennett", 36, NULL, 3);
+INSERT INTO People VALUES (76, "Arianna", "Perkins", 34, NULL, 1);
+INSERT INTO People VALUES (77, "Haris", "Brooks", 33, 21, 4);
+INSERT INTO People VALUES (78, "Chester", "Walker", 32, 5, 1);
+INSERT INTO People VALUES (79, "Steven", "Nelson", 37, NULL, 6);
+INSERT INTO People VALUES (80, "Wilson", "Henderson", 40, 48, 7);
+INSERT INTO People VALUES (81, "Paul", "Wilson", 31, 17, 9);
+INSERT INTO People VALUES (82, "Dominik", "Grant", 35, NULL, 6);
+INSERT INTO People VALUES (83, "Adelaide", "Andrews", 37, 37, 4);
+INSERT INTO People VALUES (84, "Maya", "Anderson", 39, NULL, 7);
+INSERT INTO People VALUES (85, "David", "Johnston", 33, 46, 5);
+INSERT INTO People VALUES (86, "Adelaide", "Carroll", 32, 13, 5);
+INSERT INTO People VALUES (87, "Brooke", "Williams", 35, 43, 2);
+INSERT INTO People VALUES (88, "Eric", "Payne", 32, NULL, 1);
+INSERT INTO People VALUES (89, "Eric", "Smith", 39, NULL, 3);
+INSERT INTO People VALUES (90, "Lucia", "Dixon", 30, NULL, 5);
+INSERT INTO People VALUES (91, "Melissa", "Cooper", 36, NULL, 10);
+INSERT INTO People VALUES (92, "Kellan", "Hall", 32, NULL, 9);
+INSERT INTO People VALUES (93, "Kellan", "Wells", 39, NULL, 9);
+INSERT INTO People VALUES (94, "Kirsten", "Williams", 39, NULL, 6);
+INSERT INTO People VALUES (95, "Eric", "Tucker", 40, 12, 3);
+INSERT INTO People VALUES (96, "Roman", "Tucker", 40, NULL, 2);
+INSERT INTO People VALUES (97, "Rosie", "Mitchell", 31, NULL, 2);
+INSERT INTO People VALUES (98, "Andrew", "Bennett", 37, 34, 10);
+INSERT INTO People VALUES (99, "Daniel", "Davis", 30, NULL, 2);
+INSERT INTO People VALUES (100, "Edward", "Armstrong", 38, NULL, 1);
+INSERT INTO People VALUES (101, "Dainton", "Dixon", 36, NULL, 10);
+INSERT INTO People VALUES (102, "Sophia", "Cole", 35, NULL, 5);
+INSERT INTO People VALUES (103, "Tyler", "Stewart", 38, 44, 8);
+INSERT INTO People VALUES (104, "Joyce", "Allen", 39, NULL, 4);
+INSERT INTO People VALUES (105, "Rafael", "Richardson", 32, NULL, 6);
+INSERT INTO People VALUES (106, "James", "Ryan", 34, NULL, 7);
+INSERT INTO People VALUES (107, "Eleanor", "Stewart", 33, 18, 1);
+INSERT INTO People VALUES (108, "Aiden", "Baker", 36, 19, 9);
+INSERT INTO People VALUES (109, "Lily", "Scott", 37, NULL, 9);
+INSERT INTO People VALUES (110, "Darcy", "Cunningham", 40, NULL, 7);
+INSERT INTO People VALUES (111, "Eric", "Evans", 36, NULL, 7);
+INSERT INTO People VALUES (112, "Lana", "Payne", 38, NULL, 10);
+INSERT INTO People VALUES (113, "Adison", "Payne", 35, NULL, 7);
+INSERT INTO People VALUES (114, "Miley", "Anderson", 32, 3, 3);
+INSERT INTO People VALUES (115, "Caroline", "Gray", 37, NULL, 5);
+INSERT INTO People VALUES (116, "Charlie", "Foster", 38, NULL, 3);
+INSERT INTO People VALUES (117, "Arthur", "Wells", 35, NULL, 4);
+INSERT INTO People VALUES (118, "Edgar", "Ellis", 31, 25, 2);
+INSERT INTO People VALUES (119, "Eddy", "Crawford", 30, NULL, 6);
+INSERT INTO People VALUES (120, "Owen", "Watson", 33, NULL, 3);
+INSERT INTO People VALUES (121, "Andrew", "Stewart", 32, NULL, 1);
+INSERT INTO People VALUES (122, "Jacob", "Grant", 37, 22, 10);
+INSERT INTO People VALUES (123, "Marcus", "Adams", 35, NULL, 1);
+INSERT INTO People VALUES (124, "Elian", "Howard", 30, 30, 7);
+INSERT INTO People VALUES (125, "James", "Sullivan", 35, NULL, 5);
+INSERT INTO People VALUES (126, "Alen", "Bennett", 35, 7, 9);
+INSERT INTO People VALUES (127, "Carlos", "Scott", 40, NULL, 2);
+INSERT INTO People VALUES (128, "Elian", "Murphy", 37, 4, 8);
+INSERT INTO People VALUES (129, "Adison", "Wright", 31, NULL, 6);
+INSERT INTO People VALUES (130, "Luke", "Cole", 30, NULL, 4);
+INSERT INTO People VALUES (131, "Sydney", "Scott", 35, 28, 5);
+INSERT INTO People VALUES (132, "Thomas", "Casey", 38, NULL, 6);
+INSERT INTO People VALUES (133, "Jenna", "Warren", 35, NULL, 1);
+INSERT INTO People VALUES (134, "William", "Smith", 32, NULL, 1);
+INSERT INTO People VALUES (135, "Derek", "Ferguson", 36, NULL, 3);
+INSERT INTO People VALUES (136, "Naomi", "Foster", 38, NULL, 7);
+INSERT INTO People VALUES (137, "Kevin", "Andrews", 37, NULL, 10);
+INSERT INTO People VALUES (138, "Alexander", "Montgomery", 39, NULL, 9);
+INSERT INTO People VALUES (139, "Harold", "Howard", 33, NULL, 1);
+INSERT INTO People VALUES (140, "Freddie", "Andrews", 34, NULL, 4);
+INSERT INTO People VALUES (141, "Briony", "Clark", 39, 32, 2);
+INSERT INTO People VALUES (142, "Sophia", "Turner", 40, NULL, 6);
+INSERT INTO People VALUES (143, "Natalie", "Carroll", 31, NULL, 3);
+INSERT INTO People VALUES (144, "Briony", "Douglas", 33, NULL, 9);
+INSERT INTO People VALUES (145, "Darcy", "Myers", 31, NULL, 6);
+INSERT INTO People VALUES (146, "Edgar", "Bailey", 38, NULL, 8);
+INSERT INTO People VALUES (147, "Max", "Campbell", 30, 39, 5);
+INSERT INTO People VALUES (148, "Samantha", "Hawkins", 36, 1, 3);
+INSERT INTO People VALUES (149, "Adam", "Rogers", 40, NULL, 10);
+INSERT INTO People VALUES (150, "Stuart", "Hawkins", 30, 38, 6);
+INSERT INTO People VALUES (151, "Ellia", "Harper", 39, NULL, 5);
+INSERT INTO People VALUES (152, "Alford", "Brooks", 31, NULL, 9);
+INSERT INTO People VALUES (153, "Rosie", "Brown", 37, 23, 5);
+INSERT INTO People VALUES (154, "Anna", "Allen", 34, 42, 6);
+INSERT INTO People VALUES (155, "Carl", "Richardson", 32, NULL, 9);
+INSERT INTO People VALUES (156, "Brad", "Murray", 32, NULL, 5);
+INSERT INTO People VALUES (157, "Briony", "Sullivan", 40, NULL, 4);
+INSERT INTO People VALUES (158, "Elise", "Cole", 32, 2, 9);
+INSERT INTO People VALUES (159, "Julia", "Adams", 39, NULL, 6);
+INSERT INTO People VALUES (160, "Kristian", "Rogers", 30, 36, 6);
+INSERT INTO People VALUES (161, "Spike", "Carter", 32, NULL, 10);
+INSERT INTO People VALUES (162, "Ada", "Armstrong", 33, NULL, 7);
+INSERT INTO People VALUES (163, "Sawyer", "Hawkins", 39, NULL, 8);
+INSERT INTO People VALUES (164, "Samantha", "Stevens", 37, NULL, 5);
+INSERT INTO People VALUES (165, "Mike", "Campbell", 36, NULL, 8);
+INSERT INTO People VALUES (166, "Dainton", "Myers", 34, NULL, 7);
+INSERT INTO People VALUES (167, "Lucas", "Martin", 35, NULL, 1);
+INSERT INTO People VALUES (168, "Elian", "Edwards", 33, NULL, 1);
+INSERT INTO People VALUES (169, "Spike", "Phillips", 33, 49, 10);
+INSERT INTO People VALUES (170, "Henry", "Gibson", 39, 35, 10);
+INSERT INTO People VALUES (171, "Kelvin", "Carroll", 38, NULL, 2);
+INSERT INTO People VALUES (172, "Ellia", "Howard", 32, NULL, 5);
+INSERT INTO People VALUES (173, "Valeria", "Turner", 38, NULL, 9);
+INSERT INTO People VALUES (174, "Violet", "Adams", 39, NULL, 10);
+INSERT INTO People VALUES (175, "Michelle", "Bennett", 35, 15, 4);
+INSERT INTO People VALUES (176, "Haris", "Davis", 40, NULL, 9);
+INSERT INTO People VALUES (177, "Amanda", "Carter", 37, NULL, 1);
+INSERT INTO People VALUES (178, "Julian", "Bennett", 35, NULL, 2);
+INSERT INTO People VALUES (179, "Emma", "Hill", 35, NULL, 4);
+INSERT INTO People VALUES (180, "Arnold", "Bennett", 37, NULL, 8);
+INSERT INTO People VALUES (181, "Jacob", "Miller", 36, NULL, 4);
+INSERT INTO People VALUES (182, "Michael", "Cunningham", 34, NULL, 10);
+INSERT INTO People VALUES (183, "Eric", "Riley", 39, 29, 8);
+INSERT INTO People VALUES (184, "Chester", "Evans", 33, NULL, 5);
+INSERT INTO People VALUES (185, "Haris", "Watson", 39, NULL, 6);
+INSERT INTO People VALUES (186, "Adelaide", "Fowler", 30, NULL, 7);
+INSERT INTO People VALUES (187, "Preston", "Bailey", 36, NULL, 10);
+INSERT INTO People VALUES (188, "Lana", "Riley", 38, NULL, 4);
+INSERT INTO People VALUES (189, "Byron", "Cameron", 32, NULL, 6);
+INSERT INTO People VALUES (190, "Audrey", "Hall", 34, 50, 4);
+INSERT INTO People VALUES (191, "Blake", "Perry", 39, NULL, 9);
+INSERT INTO People VALUES (192, "Adrianna", "West", 35, NULL, 3);
+INSERT INTO People VALUES (193, "Sawyer", "Phillips", 38, NULL, 9);
+INSERT INTO People VALUES (194, "Carl", "Mitchell", 37, NULL, 8);
+INSERT INTO People VALUES (195, "Haris", "Miller", 32, 20, 6);
+INSERT INTO People VALUES (196, "Charlotte", "Hamilton", 34, NULL, 3);
+INSERT INTO People VALUES (197, "Adrian", "Craig", 31, NULL, 10);
+INSERT INTO People VALUES (198, "Darcy", "Johnston", 37, 11, 9);
+INSERT INTO People VALUES (199, "Sam", "Morris", 38, NULL, 9);
+INSERT INTO People VALUES (200, "Lyndon", "Fowler", 35, NULL, 10);
+
+INSERT INTO Books VALUES (1, "A Captain's Story", 34, 1, "Young adult", "Teenagers");
+INSERT INTO Books VALUES (2, "A Circumstantial Injustice", 49, 14, "Coming-of-age", "Teenagers");
+INSERT INTO Books VALUES (3, "A Death of Beauty", 1, 6, "Fairytale", "All Ages");
+INSERT INTO Books VALUES (4, "A Garden Fiction", 46, 4, "Science", "All Ages");
+INSERT INTO Books VALUES (5, "A Garden in the Sky", 38, 22, "Young adult", "All Ages");
+INSERT INTO Books VALUES (6, "A Lady's Redemption", 12, 8, "Humor", "Teenagers");
+INSERT INTO Books VALUES (7, "A Lifetime of Despair", 19, 2, "Alternate history", "Seniors");
+INSERT INTO Books VALUES (8, "A Midsummer's Eye", 32, 14, "Action and adventure", "Children");
+INSERT INTO Books VALUES (9, "A Mold for Homecoming", 17, 24, "Fairytale", "All Ages");
+INSERT INTO Books VALUES (10, "A Voice in the Ground", 21, 2, "Action and adventure", "Children");
+INSERT INTO Books VALUES (11, "A Whisper of Thunder", 21, 1, "Fantasy", "Teenagers");
+INSERT INTO Books VALUES (12, "A White Departure", 1, 17, "Suspense", "All Ages");
+INSERT INTO Books VALUES (13, "A Widow's Mask", 23, 25, "Classic ", "Seniors");
+INSERT INTO Books VALUES (14, "Agent Wife", 6, 1, "Fantasy", "All Ages");
+INSERT INTO Books VALUES (15, "Air of Blackwood", 42, 19, "Coming-of-age", "Children");
+INSERT INTO Books VALUES (16, "Alibi for Hire", 10, 11, "Short story", "All Ages");
+INSERT INTO Books VALUES (17, "Alice and the Sheik", 48, 9, "Horror", "Teenagers");
+INSERT INTO Books VALUES (18, "Alphabet of Diablo", 35, 22, "Fairytale", "Seniors");
+INSERT INTO Books VALUES (19, "American Fright", 4, 14, "True crime", "Teenagers");
+INSERT INTO Books VALUES (20, "Ape and Doom", 40, 10, "Short story", "Teenagers");
+INSERT INTO Books VALUES (21, "Armies of Empire", 32, 21, "Cookbook", "Adults");
+INSERT INTO Books VALUES (22, "Ashes in the Garden", 13, 1, "Cookbook", "Seniors");
+INSERT INTO Books VALUES (23, "Bard's Lie", 1, 15, "Thriller", "Teenagers");
+INSERT INTO Books VALUES (24, "Beast of Beauty", 34, 3, "Horror", "Seniors");
+INSERT INTO Books VALUES (25, "Beloved Variations", 11, 24, "Suspense", "All Ages");
+INSERT INTO Books VALUES (26, "Bone Blaze", 11, 15, "Thriller", "Children");
+INSERT INTO Books VALUES (27, "Bride of a Scandal", 35, 3, "Sports and leisure", "Seniors");
+INSERT INTO Books VALUES (28, "Bride's Holiday", 49, 3, "True crime", "Seniors");
+INSERT INTO Books VALUES (29, "Captive Rome", 47, 7, "Fairytale", "Children");
+INSERT INTO Books VALUES (30, "Caves of the Purple", 23, 20, "Sports and leisure", "Children");
+INSERT INTO Books VALUES (31, "Crossroads of Fear", 17, 21, "Drama", "Adults");
+INSERT INTO Books VALUES (32, "Darling New", 6, 23, "Philosophy", "Adults");
+INSERT INTO Books VALUES (33, "Dead for the Sun", 28, 19, "Crime", "Children");
+INSERT INTO Books VALUES (34, "Deception Canary", 6, 14, "Drama", "All Ages");
+INSERT INTO Books VALUES (35, "Delusion's Rebel", 9, 17, "Classic ", "Children");
+INSERT INTO Books VALUES (36, "Dimension of Deception", 14, 6, "Sports and leisure", "Seniors");
+INSERT INTO Books VALUES (37, "Dinosaur Jenny", 30, 3, "Mystery", "Teenagers");
+INSERT INTO Books VALUES (38, "Dreamer of Intent", 40, 20, "Cookbook", "All Ages");
+INSERT INTO Books VALUES (39, "Drowned Scales", 32, 5, "Sports and leisure", "Children");
+INSERT INTO Books VALUES (40, "Echoes of Empire", 32, 2, "Coming-of-age", "Teenagers");
+INSERT INTO Books VALUES (41, "Ember and Seduced", 44, 11, "Classic ", "Teenagers");
+INSERT INTO Books VALUES (42, "Evidence of the Deceiver", 4, 7, "Western", "Adults");
+INSERT INTO Books VALUES (43, "Flights of Death", 23, 20, "Fairytale", "All Ages");
+INSERT INTO Books VALUES (44, "Forest of Deeds", 17, 17, "Graphic novel", "Teenagers");
+INSERT INTO Books VALUES (45, "Foundation and Ivy", 20, 12, "Action and adventure", "Adults");
+INSERT INTO Books VALUES (46, "Fourth Treasure", 45, 15, "Suspense", "Teenagers");
+INSERT INTO Books VALUES (47, "French Money", 2, 8, "Mystery", "Adults");
+INSERT INTO Books VALUES (48, "Gentle Lands", 40, 21, "Thriller", "Teenagers");
+INSERT INTO Books VALUES (49, "Gilgamesh the Emperor", 17, 14, "Romance", "Teenagers");
+INSERT INTO Books VALUES (50, "Hannah and the Amazon", 7, 3, "Drama", "All Ages");
+INSERT INTO Books VALUES (51, "Harry and the Rogue", 16, 22, "Western", "Adults");
+INSERT INTO Books VALUES (52, "Hart and Prejudice", 13, 23, "Mystery", "All Ages");
+INSERT INTO Books VALUES (53, "Heart of Wishes", 38, 17, "Suspense", "Adults");
+INSERT INTO Books VALUES (54, "Heaven's Gambit", 4, 6, "Historical fiction", "Seniors");
+INSERT INTO Books VALUES (55, "Heiress Sexy", 31, 14, "Science", "Seniors");
+INSERT INTO Books VALUES (56, "Ice Bargain", 32, 24, "Drama", "All Ages");
+INSERT INTO Books VALUES (57, "Joanna's Estate", 36, 8, "Short story", "Seniors");
+INSERT INTO Books VALUES (58, "Land of Moons", 44, 24, "Drama", "Seniors");
+INSERT INTO Books VALUES (59, "Luke's Plunder", 49, 21, "Short story", "All Ages");
+INSERT INTO Books VALUES (60, "Lullaby of Nathan", 3, 23, "Classic ", "Adults");
+INSERT INTO Books VALUES (61, "Maigret and the Monkey", 46, 1, "Political thriller", "Seniors");
+INSERT INTO Books VALUES (62, "Melancholy Seeds", 39, 5, "Science fiction", "Children");
+INSERT INTO Books VALUES (63, "Mischief in the Dust", 11, 2, "Philosophy", "Seniors");
+INSERT INTO Books VALUES (64, "Mission from Beyond", 45, 8, "Graphic novel", "Adults");
+INSERT INTO Books VALUES (65, "Monday's Disgrace", 12, 2, "Philosophy", "Children");
+INSERT INTO Books VALUES (66, "Night on the Beach", 48, 19, "Short story", "Children");
+INSERT INTO Books VALUES (67, "Passion's Talisman", 37, 15, "Sports and leisure", "Children");
+INSERT INTO Books VALUES (68, "Penny's Heir", 49, 5, "Classic ", "Seniors");
+INSERT INTO Books VALUES (69, "People of Paternity", 12, 14, "Alternate history", "All Ages");
+INSERT INTO Books VALUES (70, "People of the Blood", 31, 25, "Fantasy", "Adults");
+INSERT INTO Books VALUES (71, "Pillars of Passage", 5, 10, "Cookbook", "Seniors");
+INSERT INTO Books VALUES (72, "Planets of Innocence", 29, 7, "Classic ", "Seniors");
+INSERT INTO Books VALUES (73, "Police and Carla", 27, 20, "Romance", "All Ages");
+INSERT INTO Books VALUES (74, "Reaper's Sabbath", 1, 22, "Romance", "Adults");
+INSERT INTO Books VALUES (75, "Regency Adventures", 37, 19, "Crime", "Adults");
+INSERT INTO Books VALUES (76, "Ritual Dynasty", 38, 10, "True crime", "All Ages");
+INSERT INTO Books VALUES (77, "Rivers of Riverworld", 32, 17, "Suspense", "All Ages");
+INSERT INTO Books VALUES (78, "Serpent in the Mirror", 39, 5, "Drama", "Adults");
+INSERT INTO Books VALUES (79, "Stay the Dead", 39, 6, "Children's", "Children");
+INSERT INTO Books VALUES (80, "Super Rat", 16, 22, "Fantasy", "Seniors");
+INSERT INTO Books VALUES (81, "Swan's Fall", 8, 14, "Science fiction", "All Ages");
+INSERT INTO Books VALUES (82, "The Android's Prophecy", 14, 13, "Fantasy", "Teenagers");
+INSERT INTO Books VALUES (83, "The Bloodless Hero", 19, 15, "True crime", "Teenagers");
+INSERT INTO Books VALUES (84, "The Cannon's Vampire", 23, 22, "Sports and leisure", "Seniors");
+INSERT INTO Books VALUES (85, "The Circle and the Hoyden", 40, 1, "Satire", "Children");
+INSERT INTO Books VALUES (86, "The Clan of the Pearl", 47, 10, "Philosophy", "Teenagers");
+INSERT INTO Books VALUES (87, "The Curse of the Goddess", 37, 13, "Short story", "Seniors");
+INSERT INTO Books VALUES (88, "The Cypress Design", 40, 15, "Graphic novel", "All Ages");
+INSERT INTO Books VALUES (89, "The Defender's Office", 26, 3, "Young adult", "Children");
+INSERT INTO Books VALUES (90, "The Dutchman's Measure", 1, 21, "Thriller", "Seniors");
+INSERT INTO Books VALUES (91, "The Fall of the Mist", 6, 17, "Crime", "All Ages");
+INSERT INTO Books VALUES (92, "The Flight of Light", 1, 2, "Paranormal romance", "Teenagers");
+INSERT INTO Books VALUES (93, "The Frightened Envoy", 1, 4, "Romance", "All Ages");
+INSERT INTO Books VALUES (94, "The Galaxy Ships", 18, 13, "Crime", "Adults");
+INSERT INTO Books VALUES (95, "The Gunfighter and the Princess", 30, 23, "Graphic novel", "Seniors");
+INSERT INTO Books VALUES (96, "The Guns of Iron", 10, 12, "Comic book", "Seniors");
+INSERT INTO Books VALUES (97, "The Hand of the Line", 45, 10, "Cookbook", "Seniors");
+INSERT INTO Books VALUES (98, "The Heart Gifts", 49, 7, "Action and adventure", "Seniors");
+INSERT INTO Books VALUES (99, "The Heart of the Party", 15, 19, "Young adult", "Children");
+INSERT INTO Books VALUES (100, "The Hermit's Conquest", 39, 17, "Crime", "Teenagers");
+INSERT INTO Books VALUES (101, "The Housekeeper's Homecoming", 41, 17, "Action and adventure", "Seniors");
+INSERT INTO Books VALUES (102, "The Keeper's Name", 36, 15, "Paranormal romance", "All Ages");
+INSERT INTO Books VALUES (103, "The Last Touch", 5, 14, "Suspense", "Seniors");
+INSERT INTO Books VALUES (104, "The Legend Curse", 38, 2, "Science", "Teenagers");
+INSERT INTO Books VALUES (105, "The Mansion of Doubt", 3, 6, "Romance", "All Ages");
+INSERT INTO Books VALUES (106, "The Mist and the Fox", 1, 15, "Short story", "Children");
+INSERT INTO Books VALUES (107, "The Mistletoe Caller", 2, 1, "Coming-of-age", "Children");
+INSERT INTO Books VALUES (108, "The Mouse's Pleasure", 23, 15, "Paranormal romance", "Seniors");
+INSERT INTO Books VALUES (109, "The Mutiny of the Lynx", 30, 9, "Historical fiction", "Adults");
+INSERT INTO Books VALUES (110, "The Order of the Grave", 20, 4, "Science", "All Ages");
+INSERT INTO Books VALUES (111, "The Outlaw's Wheel", 14, 17, "Western", "Children");
+INSERT INTO Books VALUES (112, "The Power of the Moment", 49, 13, "Historical fiction", "Adults");
+INSERT INTO Books VALUES (113, "The Prize of Creation", 14, 2, "Young adult", "Teenagers");
+INSERT INTO Books VALUES (114, "The Pursuit of Dune", 25, 18, "Fairytale", "Children");
+INSERT INTO Books VALUES (115, "The Raider's Path", 38, 13, "Humor", "All Ages");
+INSERT INTO Books VALUES (116, "The Rebel's Evidence", 36, 13, "Action and adventure", "All Ages");
+INSERT INTO Books VALUES (117, "The Risk of Limbo", 20, 17, "Humor", "All Ages");
+INSERT INTO Books VALUES (118, "The Satanic Dozen", 13, 3, "Children's", "Children");
+INSERT INTO Books VALUES (119, "The Serpent's Betrayal", 43, 3, "Classic ", "Teenagers");
+INSERT INTO Books VALUES (120, "The Servant's Violin", 31, 1, "Classic ", "Children");
+INSERT INTO Books VALUES (121, "The Shoulder of Santiago", 22, 24, "Action and adventure", "Children");
+INSERT INTO Books VALUES (122, "The Slave Gentleman", 4, 9, "Historical fiction", "Seniors");
+INSERT INTO Books VALUES (123, "The Society of the Hound", 19, 9, "Mystery", "Teenagers");
+INSERT INTO Books VALUES (124, "The Star Rivals", 1, 4, "Coming-of-age", "Teenagers");
+INSERT INTO Books VALUES (125, "The Stranger's Chapel", 9, 14, "True crime", "Seniors");
+INSERT INTO Books VALUES (126, "The Sundered Warriors", 5, 1, "Horror", "All Ages");
+INSERT INTO Books VALUES (127, "The Theory of Soul", 9, 11, "Alternate history", "All Ages");
+INSERT INTO Books VALUES (128, "The Time of Malice", 3, 6, "Fairytale", "Teenagers");
+INSERT INTO Books VALUES (129, "The Tin Crown", 7, 14, "Western", "Seniors");
+INSERT INTO Books VALUES (130, "The Tower of Horror", 4, 5, "Suspense", "Adults");
+INSERT INTO Books VALUES (131, "The Turn of the Vampyre", 33, 20, "Historical fiction", "All Ages");
+INSERT INTO Books VALUES (132, "The Whale's Witness", 47, 7, "Comic book", "Seniors");
+INSERT INTO Books VALUES (133, "Thief's Daughter", 1, 1, "Classic ", "All Ages");
+INSERT INTO Books VALUES (134, "Three of Flames", 16, 8, "Humor", "Adults");
+INSERT INTO Books VALUES (135, "Tide of Intentions", 43, 2, "Science", "Adults");
+INSERT INTO Books VALUES (136, "Titan's Sheik", 13, 11, "Western", "Teenagers");
+INSERT INTO Books VALUES (137, "Unbroken Demand", 24, 2, "True crime", "Seniors");
+INSERT INTO Books VALUES (138, "Unwilling Shield", 16, 9, "Romance", "Children");
+INSERT INTO Books VALUES (139, "Viscount Sinister", 11, 23, "Classic ", "Children");
+INSERT INTO Books VALUES (140, "Warm Bridesmaid", 49, 9, "Fantasy", "Children");
+INSERT INTO Books VALUES (141, "Alphabet of the Wall", 16, 7, "Young adult", "All Ages");
+INSERT INTO Books VALUES (142, "Love the Tiger", 50, 16, "Satire", "Adults");
+INSERT INTO Books VALUES (143, "Babel's Duty", 44, 25, "Fantasy", "Adults");
+INSERT INTO Books VALUES (144, "The Raven's Triumph", 32, 18, "Humor", "Children");
+INSERT INTO Books VALUES (145, "Victims of Flame", 33, 24, "Coming-of-age", "All Ages");
+INSERT INTO Books VALUES (146, "Harry the Warrior", 13, 18, "Classic ", "Teenagers");
+INSERT INTO Books VALUES (147, "A Handful of Deception", 23, 2, "Mystery", "Children");
+INSERT INTO Books VALUES (148, "Knights of the Imperium", 47, 2, "Satire", "Adults");
+INSERT INTO Books VALUES (149, "Rodeo Treat", 4, 7, "Humor", "All Ages");
+INSERT INTO Books VALUES (150, "Captives of the Faith", 21, 6, "Satire", "All Ages");
+INSERT INTO Books VALUES (151, "The Killer's Paradise", 10, 25, "Western", "All Ages");
+INSERT INTO Books VALUES (152, "Carter's Mark", 16, 7, "Mystery", "Teenagers");
+INSERT INTO Books VALUES (153, "Thunder Portraits", 16, 6, "Fairytale", "All Ages");
+INSERT INTO Books VALUES (154, "Honeymoon for Redemption", 27, 11, "Science", "Children");
+INSERT INTO Books VALUES (155, "The Deadly Failure", 48, 5, "True crime", "Adults");
+INSERT INTO Books VALUES (156, "The Knife and the Highlander", 25, 17, "Sports and leisure", "Seniors");
+INSERT INTO Books VALUES (157, "Coyote Warriors", 39, 6, "Drama", "Adults");
+INSERT INTO Books VALUES (158, "Splendid Lawman", 36, 19, "Action and adventure", "Teenagers");
+INSERT INTO Books VALUES (159, "Guardian of Clouds", 20, 17, "Mystery", "All Ages");
+INSERT INTO Books VALUES (160, "A Carol for Emily", 5, 22, "Crime", "Teenagers");
+INSERT INTO Books VALUES (161, "Massacre in Love", 13, 20, "Drama", "Seniors");
+INSERT INTO Books VALUES (162, "Flowers of the Magnolia", 31, 6, "Sports and leisure", "Teenagers");
+INSERT INTO Books VALUES (163, "Arthur the Sun", 1, 12, "Children's", "Children");
+INSERT INTO Books VALUES (164, "Ribbon in the Shade", 2, 11, "Sports and leisure", "Teenagers");
+INSERT INTO Books VALUES (165, "A Fresh Flame", 40, 10, "Paranormal romance", "Adults");
+INSERT INTO Books VALUES (166, "The Monkey's Wheel", 41, 13, "Young adult", "Teenagers");
+INSERT INTO Books VALUES (167, "The Sweet Dollar", 30, 8, "Mystery", "All Ages");
+INSERT INTO Books VALUES (168, "African Cure", 42, 3, "Romance", "All Ages");
+INSERT INTO Books VALUES (169, "The Time of Evidence", 36, 25, "Political thriller", "Teenagers");
+INSERT INTO Books VALUES (170, "The Marine and the Baron", 37, 15, "Coming-of-age", "Teenagers");
+INSERT INTO Books VALUES (171, "Unquiet Knife", 34, 2, "Graphic novel", "Seniors");
+INSERT INTO Books VALUES (172, "Bachelor's Poker", 46, 13, "Comic book", "Children");
+INSERT INTO Books VALUES (173, "Emily and the Horseman", 33, 20, "Crime", "Seniors");
+INSERT INTO Books VALUES (174, "Destruction of Ruins", 43, 3, "Western", "Teenagers");
+INSERT INTO Books VALUES (175, "The Jonah Spear", 23, 18, "Mystery", "Teenagers");
+
+INSERT INTO Store VALUES (1, "A.H. Wheeler", 9);
+INSERT INTO Store VALUES (2, "Amazon", 4);
+INSERT INTO Store VALUES (3, "Angus & Robertson", 10);
+INSERT INTO Store VALUES (4, "Archambault", 3);
+INSERT INTO Store VALUES (5, "Barnes & Noble", 4);
+INSERT INTO Store VALUES (6, "Blackwell's", 8);
+INSERT INTO Store VALUES (7, "Book City", 2);
+INSERT INTO Store VALUES (8, "Bookmans", 6);
+INSERT INTO Store VALUES (9, "Borders", 10);
+INSERT INTO Store VALUES (10, "Chapters", 1);
+INSERT INTO Store VALUES (11, "Coles", 2);
+INSERT INTO Store VALUES (12, "Flammarion", 7);
+INSERT INTO Store VALUES (13, "Fnac", 7);
+INSERT INTO Store VALUES (14, "Follett's", 6);
+INSERT INTO Store VALUES (15, "Indigo", 3);
+INSERT INTO Store VALUES (16, "McNally Robinson", 1);
+INSERT INTO Store VALUES (17, "Odyssey", 9);
+INSERT INTO Store VALUES (18, "Powell's Books", 5);
+INSERT INTO Store VALUES (19, "Tattered Cover", 5);
+INSERT INTO Store VALUES (20, "Waterstones", 8);
+
+
+INSERT INTO Read VALUES (137, 48);
+INSERT INTO Read VALUES (13, 153);
+INSERT INTO Read VALUES (30, 153);
+INSERT INTO Read VALUES (43, 153);
+INSERT INTO Read VALUES (84, 153);
+INSERT INTO Read VALUES (108, 153);
+INSERT INTO Read VALUES (147, 153);
+INSERT INTO Read VALUES (175, 153);
+INSERT INTO Read VALUES (137, 48);
+INSERT INTO Read VALUES (8, 107);
+INSERT INTO Read VALUES (128, 129);
+INSERT INTO Read VALUES (60, 109);
+INSERT INTO Read VALUES (163, 67);
+INSERT INTO Read VALUES (99, 89);
+INSERT INTO Read VALUES (23, 184);
+INSERT INTO Read VALUES (95, 19);
+INSERT INTO Read VALUES (160, 39);
+INSERT INTO Read VALUES (172, 22);
+INSERT INTO Read VALUES (153, 176);
+INSERT INTO Read VALUES (94, 191);
+INSERT INTO Read VALUES (70, 137);
+INSERT INTO Read VALUES (58, 27);
+INSERT INTO Read VALUES (76, 45);
+INSERT INTO Read VALUES (62, 165);
+INSERT INTO Read VALUES (46, 36);
+INSERT INTO Read VALUES (59, 118);
+INSERT INTO Read VALUES (87, 179);
+INSERT INTO Read VALUES (87, 2);
+INSERT INTO Read VALUES (97, 8);
+INSERT INTO Read VALUES (19, 29);
+INSERT INTO Read VALUES (122, 52);
+INSERT INTO Read VALUES (77, 110);
+INSERT INTO Read VALUES (171, 131);
+INSERT INTO Read VALUES (170, 178);
+INSERT INTO Read VALUES (99, 130);
+INSERT INTO Read VALUES (163, 78);
+INSERT INTO Read VALUES (87, 177);
+INSERT INTO Read VALUES (98, 154);
+INSERT INTO Read VALUES (13, 122);
+INSERT INTO Read VALUES (175, 29);
+INSERT INTO Read VALUES (85, 155);
+INSERT INTO Read VALUES (157, 170);
+INSERT INTO Read VALUES (53, 45);
+INSERT INTO Read VALUES (165, 160);
+INSERT INTO Read VALUES (75, 166);
+INSERT INTO Read VALUES (78, 147);
+INSERT INTO Read VALUES (114, 73);
+INSERT INTO Read VALUES (65, 99);
+INSERT INTO Read VALUES (154, 36);
+INSERT INTO Read VALUES (93, 19);
+INSERT INTO Read VALUES (66, 15);
+INSERT INTO Read VALUES (163, 13);
+INSERT INTO Read VALUES (57, 139);
+INSERT INTO Read VALUES (46, 187);
+INSERT INTO Read VALUES (80, 130);
+INSERT INTO Read VALUES (100, 161);
+INSERT INTO Read VALUES (144, 146);
+INSERT INTO Read VALUES (75, 126);
+INSERT INTO Read VALUES (14, 197);
+INSERT INTO Read VALUES (140, 48);
+INSERT INTO Read VALUES (92, 182);
+INSERT INTO Read VALUES (107, 173);
+INSERT INTO Read VALUES (92, 91);
+INSERT INTO Read VALUES (108, 58);
+INSERT INTO Read VALUES (104, 129);
+INSERT INTO Read VALUES (168, 47);
+INSERT INTO Read VALUES (130, 111);
+INSERT INTO Read VALUES (17, 174);
+INSERT INTO Read VALUES (123, 164);
+INSERT INTO Read VALUES (58, 150);
+INSERT INTO Read VALUES (91, 56);
+INSERT INTO Read VALUES (19, 40);
+INSERT INTO Read VALUES (24, 187);
+INSERT INTO Read VALUES (172, 180);
+INSERT INTO Read VALUES (44, 14);
+INSERT INTO Read VALUES (142, 40);
+INSERT INTO Read VALUES (85, 150);
+INSERT INTO Read VALUES (18, 184);
+INSERT INTO Read VALUES (32, 84);
+INSERT INTO Read VALUES (104, 191);
+INSERT INTO Read VALUES (145, 122);
+INSERT INTO Read VALUES (166, 30);
+INSERT INTO Read VALUES (158, 143);
+INSERT INTO Read VALUES (149, 84);
+INSERT INTO Read VALUES (67, 91);
+INSERT INTO Read VALUES (77, 87);
+INSERT INTO Read VALUES (120, 14);
+INSERT INTO Read VALUES (61, 38);
+INSERT INTO Read VALUES (163, 152);
+INSERT INTO Read VALUES (97, 168);
+INSERT INTO Read VALUES (165, 44);
+INSERT INTO Read VALUES (54, 174);
+INSERT INTO Read VALUES (162, 176);
+INSERT INTO Read VALUES (84, 24);
+INSERT INTO Read VALUES (108, 67);
+INSERT INTO Read VALUES (47, 70);
+INSERT INTO Read VALUES (172, 79);
+INSERT INTO Read VALUES (131, 185);
+INSERT INTO Read VALUES (118, 115);
+INSERT INTO Read VALUES (27, 194);
+INSERT INTO Read VALUES (71, 8);
+INSERT INTO Read VALUES (49, 27);
+INSERT INTO Read VALUES (82, 71);
+INSERT INTO Read VALUES (1, 76);
+INSERT INTO Read VALUES (75, 30);
+INSERT INTO Read VALUES (152, 21);
+INSERT INTO Read VALUES (104, 198);
+INSERT INTO Read VALUES (117, 40);
+INSERT INTO Read VALUES (168, 165);
+INSERT INTO Read VALUES (112, 81);
+INSERT INTO Read VALUES (144, 54);
+INSERT INTO Read VALUES (131, 43);
+INSERT INTO Read VALUES (102, 100);
+INSERT INTO Read VALUES (21, 55);
+INSERT INTO Read VALUES (116, 196);
+INSERT INTO Read VALUES (148, 52);
+INSERT INTO Read VALUES (46, 171);
+INSERT INTO Read VALUES (82, 56);
+INSERT INTO Read VALUES (70, 187);
+INSERT INTO Read VALUES (81, 50);
+INSERT INTO Read VALUES (18, 154);
+INSERT INTO Read VALUES (150, 81);
+INSERT INTO Read VALUES (107, 55);
+INSERT INTO Read VALUES (17, 17);
+INSERT INTO Read VALUES (60, 54);
+INSERT INTO Read VALUES (119, 188);
+INSERT INTO Read VALUES (107, 59);
+INSERT INTO Read VALUES (45, 76);
+INSERT INTO Read VALUES (86, 69);
+INSERT INTO Read VALUES (148, 87);
+INSERT INTO Read VALUES (11, 71);
+INSERT INTO Read VALUES (142, 30);
+INSERT INTO Read VALUES (167, 195);
+INSERT INTO Read VALUES (109, 170);
+INSERT INTO Read VALUES (54, 155);
+INSERT INTO Read VALUES (22, 20);
+INSERT INTO Read VALUES (58, 94);
+INSERT INTO Read VALUES (45, 25);
+INSERT INTO Read VALUES (11, 78);
+INSERT INTO Read VALUES (136, 41);
+INSERT INTO Read VALUES (33, 155);
+INSERT INTO Read VALUES (142, 21);
+INSERT INTO Read VALUES (61, 84);
+INSERT INTO Read VALUES (146, 148);
+INSERT INTO Read VALUES (45, 195);
+INSERT INTO Read VALUES (30, 52);
+INSERT INTO Read VALUES (106, 107);
+INSERT INTO Read VALUES (16, 199);
+INSERT INTO Read VALUES (174, 196);
+INSERT INTO Read VALUES (145, 98);
+INSERT INTO Read VALUES (28, 164);
+INSERT INTO Read VALUES (76, 76);
+INSERT INTO Read VALUES (72, 30);
+INSERT INTO Read VALUES (159, 15);
+INSERT INTO Read VALUES (42, 29);
+INSERT INTO Read VALUES (101, 45);
+INSERT INTO Read VALUES (131, 6);
+INSERT INTO Read VALUES (14, 6);
+INSERT INTO Read VALUES (65, 180);
+INSERT INTO Read VALUES (102, 136);
+INSERT INTO Read VALUES (64, 197);
+INSERT INTO Read VALUES (21, 97);
+INSERT INTO Read VALUES (11, 19);
+INSERT INTO Read VALUES (44, 185);
+INSERT INTO Read VALUES (73, 140);
+INSERT INTO Read VALUES (31, 193);
+INSERT INTO Read VALUES (44, 182);
+INSERT INTO Read VALUES (127, 177);
+INSERT INTO Read VALUES (79, 168);
+INSERT INTO Read VALUES (154, 172);
+INSERT INTO Read VALUES (24, 114);
+INSERT INTO Read VALUES (147, 174);
+INSERT INTO Read VALUES (109, 126);
+INSERT INTO Read VALUES (22, 95);
+INSERT INTO Read VALUES (93, 178);
+INSERT INTO Read VALUES (141, 119);
+INSERT INTO Read VALUES (63, 12);
+INSERT INTO Read VALUES (83, 116);
+INSERT INTO Read VALUES (120, 133);
+INSERT INTO Read VALUES (147, 198);
+INSERT INTO Read VALUES (20, 54);
+INSERT INTO Read VALUES (168, 141);
+INSERT INTO Read VALUES (121, 108);
+INSERT INTO Read VALUES (49, 148);
+INSERT INTO Read VALUES (115, 177);
+INSERT INTO Read VALUES (173, 22);
+INSERT INTO Read VALUES (27, 5);
+INSERT INTO Read VALUES (85, 133);
+INSERT INTO Read VALUES (49, 172);
+INSERT INTO Read VALUES (126, 116);
+INSERT INTO Read VALUES (17, 34);
+INSERT INTO Read VALUES (130, 116);
+INSERT INTO Read VALUES (63, 22);
+INSERT INTO Read VALUES (89, 56);
+INSERT INTO Read VALUES (132, 89);
+INSERT INTO Read VALUES (45, 190);
+INSERT INTO Read VALUES (55, 98);
+INSERT INTO Read VALUES (78, 27);
+INSERT INTO Read VALUES (137, 135);
+INSERT INTO Read VALUES (34, 182);
+INSERT INTO Read VALUES (14, 137);
+INSERT INTO Read VALUES (101, 88);
+INSERT INTO Read VALUES (128, 97);
+INSERT INTO Read VALUES (129, 96);
+INSERT INTO Read VALUES (125, 65);
+INSERT INTO Read VALUES (81, 174);
+INSERT INTO Read VALUES (2, 142);
+INSERT INTO Read VALUES (132, 26);
+INSERT INTO Read VALUES (78, 183);
+INSERT INTO Read VALUES (44, 183);
+INSERT INTO Read VALUES (4, 40);
+INSERT INTO Read VALUES (156, 17);
+INSERT INTO Read VALUES (69, 146);
+INSERT INTO Read VALUES (107, 197);
+INSERT INTO Read VALUES (35, 84);
+INSERT INTO Read VALUES (134, 9);
+INSERT INTO Read VALUES (113, 155);
+INSERT INTO Read VALUES (95, 101);
+INSERT INTO Read VALUES (174, 151);
+INSERT INTO Read VALUES (133, 10);
+INSERT INTO Read VALUES (16, 106);
+INSERT INTO Read VALUES (127, 153);
+INSERT INTO Read VALUES (58, 162);
+INSERT INTO Read VALUES (172, 160);
+INSERT INTO Read VALUES (158, 39);
+INSERT INTO Read VALUES (160, 193);
+INSERT INTO Read VALUES (35, 72);
+INSERT INTO Read VALUES (171, 66);
+INSERT INTO Read VALUES (29, 171);
+INSERT INTO Read VALUES (38, 198);
+INSERT INTO Read VALUES (67, 182);
+INSERT INTO Read VALUES (85, 98);
+INSERT INTO Read VALUES (155, 5);
+INSERT INTO Read VALUES (126, 20);
+INSERT INTO Read VALUES (124, 127);
+INSERT INTO Read VALUES (140, 173);
+INSERT INTO Read VALUES (121, 76);
+INSERT INTO Read VALUES (11, 119);
+INSERT INTO Read VALUES (141, 159);
+INSERT INTO Read VALUES (89, 190);
+INSERT INTO Read VALUES (45, 191);
+INSERT INTO Read VALUES (1, 99);
+INSERT INTO Read VALUES (98, 22);
+INSERT INTO Read VALUES (81, 114);
+INSERT INTO Read VALUES (170, 120);
+INSERT INTO Read VALUES (113, 172);
+INSERT INTO Read VALUES (76, 64);
+INSERT INTO Read VALUES (47, 177);
+INSERT INTO Read VALUES (22, 126);
+INSERT INTO Read VALUES (49, 3);
+INSERT INTO Read VALUES (126, 176);
+INSERT INTO Read VALUES (145, 54);
+INSERT INTO Read VALUES (20, 90);
+INSERT INTO Read VALUES (130, 154);
+INSERT INTO Read VALUES (119, 79);
+INSERT INTO Read VALUES (157, 134);
+INSERT INTO Read VALUES (35, 90);
+INSERT INTO Read VALUES (151, 153);
+INSERT INTO Read VALUES (79, 166);
+INSERT INTO Read VALUES (86, 100);
+INSERT INTO Read VALUES (67, 187);
+INSERT INTO Read VALUES (46, 139);
+INSERT INTO Read VALUES (108, 167);
+INSERT INTO Read VALUES (94, 7);
+INSERT INTO Read VALUES (3, 64);
+INSERT INTO Read VALUES (81, 147);
+INSERT INTO Read VALUES (136, 34);
+INSERT INTO Read VALUES (83, 179);
+INSERT INTO Read VALUES (168, 124);
+INSERT INTO Read VALUES (89, 104);
+INSERT INTO Read VALUES (128, 187);
+INSERT INTO Read VALUES (70, 43);
+INSERT INTO Read VALUES (86, 173);
+INSERT INTO Read VALUES (47, 169);
+INSERT INTO Read VALUES (28, 185);
+INSERT INTO Read VALUES (25, 81);
+INSERT INTO Read VALUES (32, 65);
+INSERT INTO Read VALUES (14, 47);
+INSERT INTO Read VALUES (8, 121);
+INSERT INTO Read VALUES (166, 92);
+INSERT INTO Read VALUES (114, 63);
+INSERT INTO Read VALUES (69, 5);
+INSERT INTO Read VALUES (60, 137);
+INSERT INTO Read VALUES (75, 61);
+INSERT INTO Read VALUES (29, 106);
+INSERT INTO Read VALUES (50, 82);
+INSERT INTO Read VALUES (166, 128);
+INSERT INTO Read VALUES (2, 140);
+INSERT INTO Read VALUES (64, 95);
+INSERT INTO Read VALUES (175, 26);
+INSERT INTO Read VALUES (46, 66);
+INSERT INTO Read VALUES (163, 5);
+INSERT INTO Read VALUES (17, 132);
+INSERT INTO Read VALUES (96, 98);
+INSERT INTO Read VALUES (56, 162);
+INSERT INTO Read VALUES (160, 135);
+INSERT INTO Read VALUES (133, 63);
+INSERT INTO Read VALUES (120, 48);
+INSERT INTO Read VALUES (109, 21);
+INSERT INTO Read VALUES (84, 116);
+INSERT INTO Read VALUES (145, 159);
+INSERT INTO Read VALUES (161, 65);
+INSERT INTO Read VALUES (144, 102);
+INSERT INTO Read VALUES (100, 112);
+INSERT INTO Read VALUES (137, 61);
+INSERT INTO Read VALUES (52, 57);
+INSERT INTO Read VALUES (25, 57);
+INSERT INTO Read VALUES (10, 162);
+INSERT INTO Read VALUES (126, 63);
+INSERT INTO Read VALUES (66, 178);
+INSERT INTO Read VALUES (9, 127);
+INSERT INTO Read VALUES (34, 2);
+INSERT INTO Read VALUES (144, 193);
+INSERT INTO Read VALUES (134, 55);
+INSERT INTO Read VALUES (14, 154);
+INSERT INTO Read VALUES (58, 184);
+INSERT INTO Read VALUES (130, 106);
+INSERT INTO Read VALUES (164, 67);
+INSERT INTO Read VALUES (51, 173);
+INSERT INTO Read VALUES (115, 83);
+INSERT INTO Read VALUES (29, 194);
+INSERT INTO Read VALUES (129, 200);
+INSERT INTO Read VALUES (158, 64);
+INSERT INTO Read VALUES (53, 93);
+INSERT INTO Read VALUES (120, 159);
+INSERT INTO Read VALUES (88, 70);
+INSERT INTO Read VALUES (59, 67);
+INSERT INTO Read VALUES (31, 109);
+INSERT INTO Read VALUES (120, 194);
+INSERT INTO Read VALUES (163, 17);
+INSERT INTO Read VALUES (104, 82);
+INSERT INTO Read VALUES (33, 91);
+INSERT INTO Read VALUES (116, 123);
+INSERT INTO Read VALUES (132, 200);
+INSERT INTO Read VALUES (167, 167);
+INSERT INTO Read VALUES (141, 176);
+INSERT INTO Read VALUES (133, 137);
+INSERT INTO Read VALUES (130, 136);
+INSERT INTO Read VALUES (160, 171);
+INSERT INTO Read VALUES (67, 82);
+INSERT INTO Read VALUES (41, 200);
+INSERT INTO Read VALUES (51, 77);
+INSERT INTO Read VALUES (33, 127);
+INSERT INTO Read VALUES (111, 155);
+INSERT INTO Read VALUES (40, 52);
+INSERT INTO Read VALUES (164, 154);
+INSERT INTO Read VALUES (154, 15);
+INSERT INTO Read VALUES (54, 90);
+INSERT INTO Read VALUES (8, 166);
+INSERT INTO Read VALUES (23, 100);
+INSERT INTO Read VALUES (93, 46);
+INSERT INTO Read VALUES (45, 64);
+INSERT INTO Read VALUES (154, 100);
+INSERT INTO Read VALUES (72, 38);
+INSERT INTO Read VALUES (93, 119);
+INSERT INTO Read VALUES (139, 18);
+INSERT INTO Read VALUES (66, 73);
+INSERT INTO Read VALUES (32, 193);
+INSERT INTO Read VALUES (126, 154);
+INSERT INTO Read VALUES (150, 190);
+INSERT INTO Read VALUES (38, 82);
+INSERT INTO Read VALUES (68, 58);
+INSERT INTO Read VALUES (142, 160);
+INSERT INTO Read VALUES (166, 19);
+INSERT INTO Read VALUES (90, 20);
+INSERT INTO Read VALUES (6, 171);
+INSERT INTO Read VALUES (130, 158);
+INSERT INTO Read VALUES (100, 108);
+INSERT INTO Read VALUES (172, 151);
+INSERT INTO Read VALUES (4, 80);
+INSERT INTO Read VALUES (59, 189);
+INSERT INTO Read VALUES (25, 199);
+INSERT INTO Read VALUES (101, 132);
+INSERT INTO Read VALUES (24, 181);
+INSERT INTO Read VALUES (54, 68);
+INSERT INTO Read VALUES (135, 125);
+INSERT INTO Read VALUES (14, 57);
+INSERT INTO Read VALUES (89, 45);
+INSERT INTO Read VALUES (79, 85);
+INSERT INTO Read VALUES (51, 52);
+INSERT INTO Read VALUES (118, 17);
+INSERT INTO Read VALUES (127, 23);
+INSERT INTO Read VALUES (46, 94);
+INSERT INTO Read VALUES (7, 162);
+INSERT INTO Read VALUES (22, 148);
+INSERT INTO Read VALUES (75, 20);
+INSERT INTO Read VALUES (146, 194);
+INSERT INTO Read VALUES (19, 161);
+INSERT INTO Read VALUES (77, 118);
+INSERT INTO Read VALUES (66, 165);
+INSERT INTO Read VALUES (59, 198);
+INSERT INTO Read VALUES (130, 63);
+INSERT INTO Read VALUES (113, 187);
+INSERT INTO Read VALUES (113, 68);
+INSERT INTO Read VALUES (115, 98);
+INSERT INTO Read VALUES (113, 2);
+INSERT INTO Read VALUES (101, 137);
+INSERT INTO Read VALUES (52, 169);
+INSERT INTO Read VALUES (71, 58);
+INSERT INTO Read VALUES (112, 164);
+INSERT INTO Read VALUES (172, 24);
+INSERT INTO Read VALUES (123, 78);
+INSERT INTO Read VALUES (25, 71);
+INSERT INTO Read VALUES (149, 60);
+INSERT INTO Read VALUES (90, 23);
+INSERT INTO Read VALUES (84, 194);
+INSERT INTO Read VALUES (3, 98);
+INSERT INTO Read VALUES (59, 45);
+INSERT INTO Read VALUES (147, 14);
+INSERT INTO Read VALUES (19, 172);
+INSERT INTO Read VALUES (112, 127);
+INSERT INTO Read VALUES (35, 2);
+INSERT INTO Read VALUES (124, 16);
+INSERT INTO Read VALUES (141, 180);
+INSERT INTO Read VALUES (154, 41);
+INSERT INTO Read VALUES (68, 157);
+INSERT INTO Read VALUES (164, 93);
+INSERT INTO Read VALUES (140, 100);
+INSERT INTO Read VALUES (116, 66);
+INSERT INTO Read VALUES (122, 137);
+INSERT INTO Read VALUES (18, 101);
+INSERT INTO Read VALUES (109, 19);
+INSERT INTO Read VALUES (47, 145);
+INSERT INTO Read VALUES (116, 3);
+INSERT INTO Read VALUES (46, 87);
+INSERT INTO Read VALUES (173, 56);
+INSERT INTO Read VALUES (13, 9);
+INSERT INTO Read VALUES (15, 87);
+INSERT INTO Read VALUES (93, 200);
+INSERT INTO Read VALUES (53, 145);
+INSERT INTO Read VALUES (152, 98);
+INSERT INTO Read VALUES (6, 179);
+INSERT INTO Read VALUES (19, 74);
+INSERT INTO Read VALUES (166, 27);
+INSERT INTO Read VALUES (170, 194);
+INSERT INTO Read VALUES (158, 120);
+INSERT INTO Read VALUES (113, 29);
+INSERT INTO Read VALUES (80, 188);
+INSERT INTO Read VALUES (7, 122);
+INSERT INTO Read VALUES (40, 45);
+INSERT INTO Read VALUES (76, 38);
+INSERT INTO Read VALUES (26, 74);
+INSERT INTO Read VALUES (77, 32);
+INSERT INTO Read VALUES (124, 180);
+INSERT INTO Read VALUES (21, 59);
+INSERT INTO Read VALUES (81, 93);
+INSERT INTO Read VALUES (145, 18);
+INSERT INTO Read VALUES (39, 164);
+INSERT INTO Read VALUES (106, 91);
+INSERT INTO Read VALUES (44, 70);
+INSERT INTO Read VALUES (152, 101);
+INSERT INTO Read VALUES (101, 23);
+INSERT INTO Read VALUES (142, 84);
+INSERT INTO Read VALUES (133, 150);
+INSERT INTO Read VALUES (138, 133);
+INSERT INTO Read VALUES (76, 184);
+INSERT INTO Read VALUES (32, 73);
+INSERT INTO Read VALUES (49, 98);
+INSERT INTO Read VALUES (56, 177);
+INSERT INTO Read VALUES (118, 150);
+INSERT INTO Read VALUES (31, 5);
+INSERT INTO Read VALUES (121, 188);
+INSERT INTO Read VALUES (20, 45);
+INSERT INTO Read VALUES (113, 64);
+INSERT INTO Read VALUES (59, 66);
+INSERT INTO Read VALUES (153, 48);
+INSERT INTO Read VALUES (137, 77);
+INSERT INTO Read VALUES (38, 60);
+INSERT INTO Read VALUES (68, 145);
+INSERT INTO Read VALUES (161, 120);
+INSERT INTO Read VALUES (51, 102);
+INSERT INTO Read VALUES (67, 113);
+INSERT INTO Read VALUES (56, 116);
+INSERT INTO Read VALUES (74, 89);
+INSERT INTO Read VALUES (38, 24);
+INSERT INTO Read VALUES (154, 43);
+INSERT INTO Read VALUES (60, 48);
+INSERT INTO Read VALUES (124, 81);
+INSERT INTO Read VALUES (97, 128);
+INSERT INTO Read VALUES (34, 57);
+INSERT INTO Read VALUES (147, 30);
+INSERT INTO Read VALUES (19, 20);
+INSERT INTO Read VALUES (77, 192);
+INSERT INTO Read VALUES (98, 191);
+INSERT INTO Read VALUES (146, 132);
+INSERT INTO Read VALUES (139, 56);
+INSERT INTO Read VALUES (102, 90);
+INSERT INTO Read VALUES (42, 43);
+INSERT INTO Read VALUES (173, 115);
+INSERT INTO Read VALUES (164, 4);
+INSERT INTO Read VALUES (147, 105);
+INSERT INTO Read VALUES (126, 122);
+INSERT INTO Read VALUES (171, 4);
+INSERT INTO Read VALUES (114, 175);
+INSERT INTO Read VALUES (169, 81);
+INSERT INTO Read VALUES (119, 62);
+INSERT INTO Read VALUES (4, 138);
+INSERT INTO Read VALUES (164, 140);
+INSERT INTO Read VALUES (34, 150);
+INSERT INTO Read VALUES (52, 16);
+INSERT INTO Read VALUES (52, 33);
+INSERT INTO Read VALUES (33, 16);
+INSERT INTO Read VALUES (108, 196);
+INSERT INTO Read VALUES (51, 131);
+INSERT INTO Read VALUES (66, 167);
+INSERT INTO Read VALUES (81, 56);
+INSERT INTO Read VALUES (38, 196);
+INSERT INTO Read VALUES (107, 165);
+
+INSERT INTO Sells VALUES (6, 20);
+INSERT INTO Sells VALUES (5, 18);
+INSERT INTO Sells VALUES (19, 8);
+INSERT INTO Sells VALUES (15, 21);
+INSERT INTO Sells VALUES (3, 14);
+INSERT INTO Sells VALUES (13, 25);
+INSERT INTO Sells VALUES (6, 24);
+INSERT INTO Sells VALUES (7, 17);
+INSERT INTO Sells VALUES (14, 6);
+INSERT INTO Sells VALUES (20, 15);
+INSERT INTO Sells VALUES (11, 24);
+INSERT INTO Sells VALUES (5, 10);
+INSERT INTO Sells VALUES (7, 15);
+INSERT INTO Sells VALUES (4, 21);
+INSERT INTO Sells VALUES (10, 7);
+INSERT INTO Sells VALUES (18, 12);
+INSERT INTO Sells VALUES (15, 13);
+INSERT INTO Sells VALUES (11, 25);
+INSERT INTO Sells VALUES (14, 18);
+INSERT INTO Sells VALUES (10, 9);
+INSERT INTO Sells VALUES (14, 5);
+INSERT INTO Sells VALUES (16, 17);
+INSERT INTO Sells VALUES (4, 24);
+INSERT INTO Sells VALUES (11, 21);
+INSERT INTO Sells VALUES (11, 15);
+INSERT INTO Sells VALUES (18, 16);
+INSERT INTO Sells VALUES (1, 10);
+INSERT INTO Sells VALUES (8, 2);
+INSERT INTO Sells VALUES (6, 12);
+INSERT INTO Sells VALUES (15, 7);
+INSERT INTO Sells VALUES (6, 18);
+INSERT INTO Sells VALUES (13, 18);
+INSERT INTO Sells VALUES (13, 24);
+INSERT INTO Sells VALUES (20, 13);
+INSERT INTO Sells VALUES (3, 25);
+INSERT INTO Sells VALUES (19, 25);
+INSERT INTO Sells VALUES (19, 20);
+INSERT INTO Sells VALUES (13, 11);
+INSERT INTO Sells VALUES (3, 7);
+INSERT INTO Sells VALUES (6, 25);
+INSERT INTO Sells VALUES (3, 4);
+INSERT INTO Sells VALUES (6, 1);
+INSERT INTO Sells VALUES (4, 8);
+INSERT INTO Sells VALUES (11, 1);
+INSERT INTO Sells VALUES (1, 1);
+INSERT INTO Sells VALUES (20, 25);
+INSERT INTO Sells VALUES (16, 6);
+INSERT INTO Sells VALUES (6, 8);
+INSERT INTO Sells VALUES (18, 22);
+INSERT INTO Sells VALUES (8, 5);
+INSERT INTO Sells VALUES (12, 17);
+INSERT INTO Sells VALUES (6, 10);
+INSERT INTO Sells VALUES (15, 3);
+INSERT INTO Sells VALUES (15, 18);
+INSERT INTO Sells VALUES (12, 19);
+INSERT INTO Sells VALUES (7, 14);
+INSERT INTO Sells VALUES (15, 2);
+INSERT INTO Sells VALUES (15, 20);
+INSERT INTO Sells VALUES (9, 21);
+INSERT INTO Sells VALUES (18, 19);
+INSERT INTO Sells VALUES (16, 22);
+INSERT INTO Sells VALUES (19, 1);
+INSERT INTO Sells VALUES (11, 14);
+INSERT INTO Sells VALUES (12, 25);
+INSERT INTO Sells VALUES (3, 13);
+INSERT INTO Sells VALUES (12, 23);
+INSERT INTO Sells VALUES (1, 5);
+INSERT INTO Sells VALUES (18, 21);
+INSERT INTO Sells VALUES (18, 8);
+INSERT INTO Sells VALUES (13, 19);
+INSERT INTO Sells VALUES (8, 16);
+INSERT INTO Sells VALUES (13, 17);
+INSERT INTO Sells VALUES (20, 19);
+INSERT INTO Sells VALUES (16, 16);
+INSERT INTO Sells VALUES (20, 8);]]></console>
+    </connection>
+    <connection id="bfc7ae15-bf0b-4ccf-9b2c-0aaf1de7cf3a">
+      <console name="Connection 1" type="STANDARD" schema="" session="Main" />
+    </connection>
+  </component>
+  <component name="DBNavigator.Project.DatabaseFileManager">
+    <open-files />
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="d62ecd0e-e700-48db-93e5-ecb1e1119867" />
+    <connection id="bfc7ae15-bf0b-4ccf-9b2c-0aaf1de7cf3a" />
+  </component>
+  <component name="DBNavigator.Project.EditorStateManager">
+    <last-used-providers />
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/library.sql" connection-id="d62ecd0e-e700-48db-93e5-ecb1e1119867" session-id="MAIN" current-schema="" />
+  </component>
+  <component name="DBNavigator.Project.MethodExecutionManager">
+    <method-browser />
+    <execution-history>
+      <group-entries value="true" />
+      <execution-inputs />
+    </execution-history>
+    <argument-values-cache />
+  </component>
+  <component name="DBNavigator.Project.ObjectDependencyManager">
+    <last-used-dependency-type value="INCOMING" />
+  </component>
+  <component name="DBNavigator.Project.ObjectQuickFilterManager">
+    <last-used-operator value="EQUAL" />
+    <filters />
+  </component>
+  <component name="DBNavigator.Project.ParserDiagnosticsManager">
+    <diagnostics-history />
+  </component>
+  <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
+    <recently-used-interfaces />
+  </component>
+  <component name="DBNavigator.Project.Settings">
+    <connections>
+      <connection id="d62ecd0e-e700-48db-93e5-ecb1e1119867" active="true" signed="true">
+        <database>
+          <name value="Connection" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="9999.0" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="" />
+          <port value="" />
+          <database value="" />
+          <files>
+            <file path="sqlite.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="true" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="false" />
+          <environment-type value="default" />
+          <connectivity-timeout value="10" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter>
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="bfc7ae15-bf0b-4ccf-9b2c-0aaf1de7cf3a" active="true" signed="true">
+        <database>
+          <name value="Connection 1" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="9999.0" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="" />
+          <port value="" />
+          <database value="" />
+          <files>
+            <file path="sqlite.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="true" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="false" />
+          <environment-type value="default" />
+          <connectivity-timeout value="10" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter>
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+    </connections>
+    <browser-settings>
+      <general>
+        <display-mode value="TABBED" />
+        <navigation-history-size value="100" />
+        <show-object-details value="false" />
+      </general>
+      <filters>
+        <object-type-filter>
+          <object-type name="SCHEMA" enabled="true" />
+          <object-type name="USER" enabled="true" />
+          <object-type name="ROLE" enabled="true" />
+          <object-type name="PRIVILEGE" enabled="true" />
+          <object-type name="CHARSET" enabled="true" />
+          <object-type name="TABLE" enabled="true" />
+          <object-type name="VIEW" enabled="true" />
+          <object-type name="MATERIALIZED_VIEW" enabled="true" />
+          <object-type name="NESTED_TABLE" enabled="true" />
+          <object-type name="COLUMN" enabled="true" />
+          <object-type name="INDEX" enabled="true" />
+          <object-type name="CONSTRAINT" enabled="true" />
+          <object-type name="DATASET_TRIGGER" enabled="true" />
+          <object-type name="DATABASE_TRIGGER" enabled="true" />
+          <object-type name="SYNONYM" enabled="true" />
+          <object-type name="SEQUENCE" enabled="true" />
+          <object-type name="PROCEDURE" enabled="true" />
+          <object-type name="FUNCTION" enabled="true" />
+          <object-type name="PACKAGE" enabled="true" />
+          <object-type name="TYPE" enabled="true" />
+          <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+          <object-type name="ARGUMENT" enabled="true" />
+          <object-type name="DIMENSION" enabled="true" />
+          <object-type name="CLUSTER" enabled="true" />
+          <object-type name="DBLINK" enabled="true" />
+        </object-type-filter>
+      </filters>
+      <sorting>
+        <object-type name="COLUMN" sorting-type="NAME" />
+        <object-type name="FUNCTION" sorting-type="NAME" />
+        <object-type name="PROCEDURE" sorting-type="NAME" />
+        <object-type name="ARGUMENT" sorting-type="POSITION" />
+        <object-type name="TYPE ATTRIBUTE" sorting-type="POSITION" />
+      </sorting>
+      <default-editors>
+        <object-type name="VIEW" editor-type="SELECTION" />
+        <object-type name="PACKAGE" editor-type="SELECTION" />
+        <object-type name="TYPE" editor-type="SELECTION" />
+      </default-editors>
+    </browser-settings>
+    <navigation-settings>
+      <lookup-filters>
+        <lookup-objects>
+          <object-type name="SCHEMA" enabled="true" />
+          <object-type name="USER" enabled="false" />
+          <object-type name="ROLE" enabled="false" />
+          <object-type name="PRIVILEGE" enabled="false" />
+          <object-type name="CHARSET" enabled="false" />
+          <object-type name="TABLE" enabled="true" />
+          <object-type name="VIEW" enabled="true" />
+          <object-type name="MATERIALIZED VIEW" enabled="true" />
+          <object-type name="INDEX" enabled="true" />
+          <object-type name="CONSTRAINT" enabled="true" />
+          <object-type name="DATASET TRIGGER" enabled="true" />
+          <object-type name="DATABASE TRIGGER" enabled="true" />
+          <object-type name="SYNONYM" enabled="false" />
+          <object-type name="SEQUENCE" enabled="true" />
+          <object-type name="PROCEDURE" enabled="true" />
+          <object-type name="FUNCTION" enabled="true" />
+          <object-type name="PACKAGE" enabled="true" />
+          <object-type name="TYPE" enabled="true" />
+          <object-type name="DIMENSION" enabled="false" />
+          <object-type name="CLUSTER" enabled="false" />
+          <object-type name="DBLINK" enabled="true" />
+        </lookup-objects>
+        <force-database-load value="false" />
+        <prompt-connection-selection value="true" />
+        <prompt-schema-selection value="true" />
+      </lookup-filters>
+    </navigation-settings>
+    <dataset-grid-settings>
+      <general>
+        <enable-zooming value="true" />
+        <enable-column-tooltip value="true" />
+      </general>
+      <sorting>
+        <nulls-first value="true" />
+        <max-sorting-columns value="4" />
+      </sorting>
+      <audit-columns>
+        <column-names value="" />
+        <visible value="true" />
+        <editable value="false" />
+      </audit-columns>
+    </dataset-grid-settings>
+    <dataset-editor-settings>
+      <text-editor-popup>
+        <active value="false" />
+        <active-if-empty value="false" />
+        <data-length-threshold value="100" />
+        <popup-delay value="1000" />
+      </text-editor-popup>
+      <values-actions-popup>
+        <show-popup-button value="true" />
+        <element-count-threshold value="1000" />
+        <data-length-threshold value="250" />
+      </values-actions-popup>
+      <general>
+        <fetch-block-size value="100" />
+        <fetch-timeout value="30" />
+        <trim-whitespaces value="true" />
+        <convert-empty-strings-to-null value="true" />
+        <select-content-on-cell-edit value="true" />
+        <large-value-preview-active value="true" />
+      </general>
+      <filters>
+        <prompt-filter-dialog value="true" />
+        <default-filter-type value="BASIC" />
+      </filters>
+      <qualified-text-editor text-length-threshold="300">
+        <content-types>
+          <content-type name="Text" enabled="true" />
+          <content-type name="Properties" enabled="true" />
+          <content-type name="XML" enabled="true" />
+          <content-type name="DTD" enabled="true" />
+          <content-type name="HTML" enabled="true" />
+          <content-type name="XHTML" enabled="true" />
+          <content-type name="Java" enabled="true" />
+          <content-type name="SQL" enabled="true" />
+          <content-type name="PL/SQL" enabled="true" />
+          <content-type name="JSON" enabled="true" />
+          <content-type name="JSON5" enabled="true" />
+          <content-type name="Groovy" enabled="true" />
+          <content-type name="AIDL" enabled="true" />
+          <content-type name="YAML" enabled="true" />
+          <content-type name="Manifest" enabled="true" />
+        </content-types>
+      </qualified-text-editor>
+      <record-navigation>
+        <navigation-target value="VIEWER" />
+      </record-navigation>
+    </dataset-editor-settings>
+    <code-editor-settings>
+      <general>
+        <show-object-navigation-gutter value="false" />
+        <show-spec-declaration-navigation-gutter value="true" />
+        <enable-spellchecking value="true" />
+        <enable-reference-spellchecking value="false" />
+      </general>
+      <confirmations>
+        <save-changes value="false" />
+        <revert-changes value="true" />
+      </confirmations>
+    </code-editor-settings>
+    <code-completion-settings>
+      <filters>
+        <basic-filter>
+          <filter-element type="RESERVED_WORD" id="keyword" selected="true" />
+          <filter-element type="RESERVED_WORD" id="function" selected="true" />
+          <filter-element type="RESERVED_WORD" id="parameter" selected="true" />
+          <filter-element type="RESERVED_WORD" id="datatype" selected="true" />
+          <filter-element type="RESERVED_WORD" id="exception" selected="true" />
+          <filter-element type="OBJECT" id="schema" selected="true" />
+          <filter-element type="OBJECT" id="role" selected="true" />
+          <filter-element type="OBJECT" id="user" selected="true" />
+          <filter-element type="OBJECT" id="privilege" selected="true" />
+          <user-schema>
+            <filter-element type="OBJECT" id="table" selected="true" />
+            <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="materialized view" selected="true" />
+            <filter-element type="OBJECT" id="index" selected="true" />
+            <filter-element type="OBJECT" id="constraint" selected="true" />
+            <filter-element type="OBJECT" id="trigger" selected="true" />
+            <filter-element type="OBJECT" id="synonym" selected="false" />
+            <filter-element type="OBJECT" id="sequence" selected="true" />
+            <filter-element type="OBJECT" id="procedure" selected="true" />
+            <filter-element type="OBJECT" id="function" selected="true" />
+            <filter-element type="OBJECT" id="package" selected="true" />
+            <filter-element type="OBJECT" id="type" selected="true" />
+            <filter-element type="OBJECT" id="dimension" selected="true" />
+            <filter-element type="OBJECT" id="cluster" selected="true" />
+            <filter-element type="OBJECT" id="dblink" selected="true" />
+          </user-schema>
+          <public-schema>
+            <filter-element type="OBJECT" id="table" selected="false" />
+            <filter-element type="OBJECT" id="view" selected="false" />
+            <filter-element type="OBJECT" id="materialized view" selected="false" />
+            <filter-element type="OBJECT" id="index" selected="false" />
+            <filter-element type="OBJECT" id="constraint" selected="false" />
+            <filter-element type="OBJECT" id="trigger" selected="false" />
+            <filter-element type="OBJECT" id="synonym" selected="false" />
+            <filter-element type="OBJECT" id="sequence" selected="false" />
+            <filter-element type="OBJECT" id="procedure" selected="false" />
+            <filter-element type="OBJECT" id="function" selected="false" />
+            <filter-element type="OBJECT" id="package" selected="false" />
+            <filter-element type="OBJECT" id="type" selected="false" />
+            <filter-element type="OBJECT" id="dimension" selected="false" />
+            <filter-element type="OBJECT" id="cluster" selected="false" />
+            <filter-element type="OBJECT" id="dblink" selected="false" />
+          </public-schema>
+          <any-schema>
+            <filter-element type="OBJECT" id="table" selected="true" />
+            <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="materialized view" selected="true" />
+            <filter-element type="OBJECT" id="index" selected="true" />
+            <filter-element type="OBJECT" id="constraint" selected="true" />
+            <filter-element type="OBJECT" id="trigger" selected="true" />
+            <filter-element type="OBJECT" id="synonym" selected="true" />
+            <filter-element type="OBJECT" id="sequence" selected="true" />
+            <filter-element type="OBJECT" id="procedure" selected="true" />
+            <filter-element type="OBJECT" id="function" selected="true" />
+            <filter-element type="OBJECT" id="package" selected="true" />
+            <filter-element type="OBJECT" id="type" selected="true" />
+            <filter-element type="OBJECT" id="dimension" selected="true" />
+            <filter-element type="OBJECT" id="cluster" selected="true" />
+            <filter-element type="OBJECT" id="dblink" selected="true" />
+          </any-schema>
+        </basic-filter>
+        <extended-filter>
+          <filter-element type="RESERVED_WORD" id="keyword" selected="true" />
+          <filter-element type="RESERVED_WORD" id="function" selected="true" />
+          <filter-element type="RESERVED_WORD" id="parameter" selected="true" />
+          <filter-element type="RESERVED_WORD" id="datatype" selected="true" />
+          <filter-element type="RESERVED_WORD" id="exception" selected="true" />
+          <filter-element type="OBJECT" id="schema" selected="true" />
+          <filter-element type="OBJECT" id="user" selected="true" />
+          <filter-element type="OBJECT" id="role" selected="true" />
+          <filter-element type="OBJECT" id="privilege" selected="true" />
+          <user-schema>
+            <filter-element type="OBJECT" id="table" selected="true" />
+            <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="materialized view" selected="true" />
+            <filter-element type="OBJECT" id="index" selected="true" />
+            <filter-element type="OBJECT" id="constraint" selected="true" />
+            <filter-element type="OBJECT" id="trigger" selected="true" />
+            <filter-element type="OBJECT" id="synonym" selected="true" />
+            <filter-element type="OBJECT" id="sequence" selected="true" />
+            <filter-element type="OBJECT" id="procedure" selected="true" />
+            <filter-element type="OBJECT" id="function" selected="true" />
+            <filter-element type="OBJECT" id="package" selected="true" />
+            <filter-element type="OBJECT" id="type" selected="true" />
+            <filter-element type="OBJECT" id="dimension" selected="true" />
+            <filter-element type="OBJECT" id="cluster" selected="true" />
+            <filter-element type="OBJECT" id="dblink" selected="true" />
+          </user-schema>
+          <public-schema>
+            <filter-element type="OBJECT" id="table" selected="true" />
+            <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="materialized view" selected="true" />
+            <filter-element type="OBJECT" id="index" selected="true" />
+            <filter-element type="OBJECT" id="constraint" selected="true" />
+            <filter-element type="OBJECT" id="trigger" selected="true" />
+            <filter-element type="OBJECT" id="synonym" selected="true" />
+            <filter-element type="OBJECT" id="sequence" selected="true" />
+            <filter-element type="OBJECT" id="procedure" selected="true" />
+            <filter-element type="OBJECT" id="function" selected="true" />
+            <filter-element type="OBJECT" id="package" selected="true" />
+            <filter-element type="OBJECT" id="type" selected="true" />
+            <filter-element type="OBJECT" id="dimension" selected="true" />
+            <filter-element type="OBJECT" id="cluster" selected="true" />
+            <filter-element type="OBJECT" id="dblink" selected="true" />
+          </public-schema>
+          <any-schema>
+            <filter-element type="OBJECT" id="table" selected="true" />
+            <filter-element type="OBJECT" id="view" selected="true" />
+            <filter-element type="OBJECT" id="materialized view" selected="true" />
+            <filter-element type="OBJECT" id="index" selected="true" />
+            <filter-element type="OBJECT" id="constraint" selected="true" />
+            <filter-element type="OBJECT" id="trigger" selected="true" />
+            <filter-element type="OBJECT" id="synonym" selected="true" />
+            <filter-element type="OBJECT" id="sequence" selected="true" />
+            <filter-element type="OBJECT" id="procedure" selected="true" />
+            <filter-element type="OBJECT" id="function" selected="true" />
+            <filter-element type="OBJECT" id="package" selected="true" />
+            <filter-element type="OBJECT" id="type" selected="true" />
+            <filter-element type="OBJECT" id="dimension" selected="true" />
+            <filter-element type="OBJECT" id="cluster" selected="true" />
+            <filter-element type="OBJECT" id="dblink" selected="true" />
+          </any-schema>
+        </extended-filter>
+      </filters>
+      <sorting enabled="true">
+        <sorting-element type="RESERVED_WORD" id="keyword" />
+        <sorting-element type="RESERVED_WORD" id="datatype" />
+        <sorting-element type="OBJECT" id="column" />
+        <sorting-element type="OBJECT" id="table" />
+        <sorting-element type="OBJECT" id="view" />
+        <sorting-element type="OBJECT" id="materialized view" />
+        <sorting-element type="OBJECT" id="index" />
+        <sorting-element type="OBJECT" id="constraint" />
+        <sorting-element type="OBJECT" id="trigger" />
+        <sorting-element type="OBJECT" id="synonym" />
+        <sorting-element type="OBJECT" id="sequence" />
+        <sorting-element type="OBJECT" id="procedure" />
+        <sorting-element type="OBJECT" id="function" />
+        <sorting-element type="OBJECT" id="package" />
+        <sorting-element type="OBJECT" id="type" />
+        <sorting-element type="OBJECT" id="dimension" />
+        <sorting-element type="OBJECT" id="cluster" />
+        <sorting-element type="OBJECT" id="dblink" />
+        <sorting-element type="OBJECT" id="schema" />
+        <sorting-element type="OBJECT" id="role" />
+        <sorting-element type="OBJECT" id="user" />
+        <sorting-element type="RESERVED_WORD" id="function" />
+        <sorting-element type="RESERVED_WORD" id="parameter" />
+      </sorting>
+      <format>
+        <enforce-code-style-case value="true" />
+      </format>
+    </code-completion-settings>
+    <execution-engine-settings>
+      <statement-execution>
+        <fetch-block-size value="100" />
+        <execution-timeout value="20" />
+        <debug-execution-timeout value="600" />
+        <focus-result value="false" />
+        <prompt-execution value="false" />
+      </statement-execution>
+      <script-execution>
+        <command-line-interfaces />
+        <execution-timeout value="300" />
+      </script-execution>
+      <method-execution>
+        <execution-timeout value="30" />
+        <debug-execution-timeout value="600" />
+        <parameter-history-size value="10" />
+      </method-execution>
+    </execution-engine-settings>
+    <operation-settings>
+      <transactions>
+        <uncommitted-changes>
+          <on-project-close value="ASK" />
+          <on-disconnect value="ASK" />
+          <on-autocommit-toggle value="ASK" />
+        </uncommitted-changes>
+        <multiple-uncommitted-changes>
+          <on-commit value="ASK" />
+          <on-rollback value="ASK" />
+        </multiple-uncommitted-changes>
+      </transactions>
+      <session-browser>
+        <disconnect-session value="ASK" />
+        <kill-session value="ASK" />
+        <reload-on-filter-change value="false" />
+      </session-browser>
+      <compiler>
+        <compile-type value="KEEP" />
+        <compile-dependencies value="ASK" />
+        <always-show-controls value="false" />
+      </compiler>
+      <debugger>
+        <debugger-type value="ASK" />
+        <use-generic-runners value="true" />
+      </debugger>
+    </operation-settings>
+    <ddl-file-settings>
+      <extensions>
+        <mapping file-type-id="VIEW" extensions="vw" />
+        <mapping file-type-id="TRIGGER" extensions="trg" />
+        <mapping file-type-id="PROCEDURE" extensions="prc" />
+        <mapping file-type-id="FUNCTION" extensions="fnc" />
+        <mapping file-type-id="PACKAGE" extensions="pkg" />
+        <mapping file-type-id="PACKAGE_SPEC" extensions="pks" />
+        <mapping file-type-id="PACKAGE_BODY" extensions="pkb" />
+        <mapping file-type-id="TYPE" extensions="tpe" />
+        <mapping file-type-id="TYPE_SPEC" extensions="tps" />
+        <mapping file-type-id="TYPE_BODY" extensions="tpb" />
+      </extensions>
+      <general>
+        <lookup-ddl-files value="true" />
+        <create-ddl-files value="false" />
+        <synchronize-ddl-files value="true" />
+        <use-qualified-names value="false" />
+        <make-scripts-rerunnable value="true" />
+      </general>
+    </ddl-file-settings>
+    <general-settings>
+      <regional-settings>
+        <date-format value="MEDIUM" />
+        <number-format value="UNGROUPED" />
+        <locale value="SYSTEM_DEFAULT" />
+        <use-custom-formats value="false" />
+      </regional-settings>
+      <environment>
+        <environment-types>
+          <environment-type id="development" name="Development" description="Development environment" color="-2430209/-12296320" readonly-code="false" readonly-data="false" />
+          <environment-type id="integration" name="Integration" description="Integration environment" color="-2621494/-12163514" readonly-code="true" readonly-data="false" />
+          <environment-type id="production" name="Production" description="Productive environment" color="-11574/-10271420" readonly-code="true" readonly-data="true" />
+          <environment-type id="other" name="Other" description="" color="-1576/-10724543" readonly-code="false" readonly-data="false" />
+        </environment-types>
+        <visibility-settings>
+          <connection-tabs value="true" />
+          <dialog-headers value="true" />
+          <object-editor-tabs value="true" />
+          <script-editor-tabs value="false" />
+          <execution-result-tabs value="true" />
+        </visibility-settings>
+      </environment>
+    </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+  </component>
+</project>
