@@ -154,10 +154,9 @@ class MyDatabase {
 		try {
 			String sql = "SELECT * FROM people WHERE first LIKE ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, "%" + name + "%");
+			statement.setString(1,  name + "%");
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				System.out.print("id: "+result.getString("id") + ", ");
 				System.out.print("first name: "+result.getString("first")+ ", ");
 				System.out.print("last name: "+result.getString("last") + "\n");
 
@@ -165,8 +164,6 @@ class MyDatabase {
 		} catch (SQLException e) {
 			e.printStackTrace(System.out);
 		}
-
-
 	}
 
 	public void lookupByID(String id) {
@@ -202,7 +199,13 @@ class MyDatabase {
 		try {
 			Statement statement = connection.createStatement();
 
-			PreparedStatement ps = connection.prepareStatement("Select people.first,people.last,count(distinct publishers.pid) as numPublishers from people join books on people.aid = books.aid join publishers on books.pid=publishers.pid group by people.id order by numPublishers desc limit 5");
+			PreparedStatement ps = connection.prepareStatement("" +
+					"Select people.first,people.last,count(distinct publishers.pid) as numPublishers " +
+					"from people join books on people.aid = books.aid " +
+					"join publishers on books.pid=publishers.pid " +
+					"group by people.id " +
+					"order by numPublishers " +
+					"desc limit 5");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.print("first name = " + rs.getString("first")+ ", ");
@@ -344,7 +347,8 @@ class MyDatabase {
 		try {
 			Statement statement = connection.createStatement();
 			PreparedStatement ps = connection.prepareStatement("" +
-					"Select people.first,people.last,count(distinct store.cid) as numCities from people join books on people.aid=books.aid " +
+					"Select people.first,people.last,count(distinct store.cid) as numCities " +
+					"from people join books on people.aid=books.aid " +
 					"join publishers on publishers.pid=books.pid " +
 					"join sells on sells.pid = publishers.pid " +
 					"join store on store.id=sells.sid " +
