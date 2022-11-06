@@ -170,7 +170,6 @@ class MyDatabase {
 
 		try {
 			Statement statement = connection.createStatement();
-			statement.setQueryTimeout(30); // set timeout to 30 sec.
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM people WHERE id = ?");
 			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -248,7 +247,13 @@ class MyDatabase {
 		try {
 			Statement statement = connection.createStatement();
 
-			PreparedStatement ps = connection.prepareStatement("Select distinct store.name from store where store.id not in(Select distinct store.id from store natural join sells natural join publishers natural join books where books.aid = ?)");
+			PreparedStatement ps = connection.prepareStatement("" +
+					"Select distinct name from store " +
+					"except " +
+					"Select distinct store.name from store " +
+					"join sells on store.id = sells.sid " +
+					"join publishers on publishers.pid = sells.pid " +
+					"natural join books where books.aid=? ");
 			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
