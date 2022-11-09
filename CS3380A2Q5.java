@@ -326,9 +326,11 @@ class MyDatabase {
 		try {
 			Statement statement = connection.createStatement();
 			PreparedStatement ps = connection.prepareStatement("" +
-					"with notRead as (Select people.id,books.bid from people,books where people.aid is not null" +
+					"with notRead as (Select people.id,books.bid from people,books where people.aid is not null " +
 					"except " +
-					"select people.id,books.bid from people join read on people.id=read.bid join books on read.bid=books.bid)"+
+					"select people.id,books.bid from people join read on people.id=read.id join books on read.bid=books.bid " +
+					"where people.aid is not null" +
+					")"+
 					"Select distinct first,last from people where id not in(select id from notRead)"+
 					"");
 
@@ -348,7 +350,7 @@ class MyDatabase {
 	}
 
 	public void mostCities() {
-		//Authors that have read all their own books
+
 		try {
 			Statement statement = connection.createStatement();
 			PreparedStatement ps = connection.prepareStatement("" +
